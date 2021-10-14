@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<style type="text/css">
+	  @font-face {
+	    font-family:"OCRAStd";
+	    src:url("OCRAStd.otf") format("otf");
+	  }
+	</style>
+</head>
+<body onload="draw();">
+
+	<div>
+	<!-- Create canvas but set to invisible-->
+	<canvas id="canvas" width="650" height="535" style="display: none;"></canvas>
+	</div>
+	 
+	<div>
+		<!--Create placeholder image that we will update later-->
+		<img src="" id="placeholder" width="650" height="535" />
+	</div>
+	<script type="text/javascript">
+		const queryString = window.location.search;
+		const urlParams = new URLSearchParams(queryString);
+		
+		// URL parameters are set here
+		// All of these parameters need to be included in the URL or the app wont work.
+		const mm_firstName = urlParams.get('mm_firstName');
+		const mm_lastName = urlParams.et('mm_lastName');
+		let mm_fullName = mm_firstName + ' ' + mm_lastName;
+		
+		// Draw canvas
+		function draw(textVal) {
+			
+			// Get canvas as variable
+			var canvas = document.getElementById('canvas');
+			
+			// Get placeholder image as variable
+			var image = document.getElementById('placeholder');
+			
+			image.crossOrigin="anonymous";
+			console.log(canvas)
+			
+			// If canvas is created, draw words below
+			if (canvas.getContext) {
+				var ctx = canvas.getContext('2d');
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				ctx.font = 'bold 16px OCRAStd';
+				ctx.fillStyle = 'black';
+				var background = new Image();
+				
+				// Select credit card image below
+				background.src = "18874722-blank-credit-card.jpg";
+				background.onload = function(){
+					
+					// Place background image at 0,0 coordinates
+					ctx.drawImage(background,0,0, canvas.width, canvas.height);
+					
+					// Place text from mm_fullName variable on top of background at x,y coordinates. 
+					ctx.fillText(mm_fullName, 120, 360, canvas.width);
+					
+					// Set src of placeholder image to the canvas data
+					var data = canvas.toDataURL('image/png', 1.0);
+					image.src = data;
+
+				}
+				
+			}
+		}
+	</script>
+</body>
+</html>
